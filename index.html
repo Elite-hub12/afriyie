@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AFRIYIE Tools | Multitool Site</title>
+    <style>
+      :root {
+        --page-bg: #ffffff;
+        --panel: #ffffff;
+        --panel-soft: #f6f5f2;
+        --border: #ddd7cd;
+        --accent: #ef6f3c;
+        --accent-dark: #cb5627;
+        --text: #111111;
+        --muted: #666052;
+        --shadow: 0 22px 60px rgba(26, 20, 12, 0.08);
+        --hero-overlay: rgba(239, 111, 60, 0.12);
+        --hero-bottom: #fffcf5;
+        --panel-overlay: rgba(239, 111, 60, 0.18);
+        --card-bg: #fcfbf8;
+        --input-bg: #ffffff;
+        --surface-tint: #fffdfa;
+        --summary-bg: #fffdf9;
+        --nav-bg: #fffaf0;
+        --focus-ring: rgba(239, 111, 60, 0.18);
+        --button-bg: #111111;
+        --button-text: #ffffff;
+        --body-radial: rgba(239, 111, 60, 0.16);
+        --hover-shadow: 0 28px 70px rgba(26, 20, 12, 0.1);
+        --tool-glow: rgba(239, 111, 60, 0.18);
+      }
+
+      body[data-theme="dark"] {
+        --page-bg: #111315;
+        --panel: #181b1f;
+        --panel-soft: #1d2126;
+        --border: #2d333a;
+        --text: #f5f5f2;
+        --muted: #b4b6ba;
+        --shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
+        --hero-overlay: rgba(239, 111, 60, 0.14);
+        --hero-bottom: #15181c;
+        --panel-overlay: rgba(239, 111, 60, 0.12);
+        --card-bg: #1b2025;
+        --input-bg: #13171b;
+        --surface-tint: #1b2025;
+        --summary-bg: #1b2025;
+        --nav-bg: #181b1f;
+        --focus-ring: rgba(239, 111, 60, 0.22);
+        --button-bg: #f5f5f2;
+        --button-text: #111315;
+        --body-radial: rgba(239, 111, 60, 0.12);
+        --hover-shadow: 0 28px 70px rgba(0, 0, 0, 0.45);
+        --tool-glow: rgba(239, 111, 60, 0.22);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top right, var(--body-radial), transparent 24%),
+          linear-gradient(180deg, var(--hero-bottom) 0%, var(--page-bg) 18%, var(--page-bg) 100%);
+        transition: background 0.45s ease, color 0.35s ease;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      button,
+      .primary-link {
+        border: none;
+        border-radius: 999px;
+        padding: 0.95rem 1.3rem;
+        cursor: pointer;
+        transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+      }
+
+      button {
+        background: var(--button-bg);
+        color: var(--button-text);
+      }
+
+      button:hover,
+      .primary-link:hover {
+        transform: translateY(-1px);
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--border);
+        background: var(--input-bg);
+        border-radius: 18px;
+        padding: 0.9rem 1rem;
+        color: var(--text);
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.35s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--focus-ring);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 180px;
+      }
+
+      .page-shell {
+        width: min(1180px, calc(100% - 2rem));
+        margin: 0 auto;
+        padding: 1rem 0 4rem;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0 2rem;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.04em;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+        filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.12));
+      }
+
+      .nav-badge,
+      .pill {
+        border: 1px solid var(--border);
+        background: var(--nav-bg);
+        color: var(--muted);
+        border-radius: 999px;
+        padding: 0.45rem 0.8rem;
+        font-size: 0.88rem;
+      }
+
+      .hero {
+        padding: 0.6rem 0 2rem;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 1.5rem;
+        align-items: stretch;
+        position: relative;
+      }
+
+      .hero-panel {
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 1.4rem;
+      }
+
+      .hero-figure {
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        background:
+          radial-gradient(circle at top, color-mix(in srgb, var(--panel-overlay) 90%, transparent), transparent 58%),
+          color-mix(in srgb, var(--panel) 88%, transparent);
+        min-height: 250px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .hero-figure img {
+        width: min(100%, 290px);
+        height: auto;
+        display: block;
+        transform: translateY(10px);
+        filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.18));
+        animation: heroBob 5.8s ease-in-out infinite;
+      }
+
+      .hero-copy,
+      .hero-panel,
+      .tool-card {
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        background: var(--panel);
+        box-shadow: var(--shadow);
+        transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease, border-color 0.35s ease;
+        animation: riseIn 0.75s ease both;
+      }
+
+      .hero-copy {
+        padding: 2.5rem;
+        background:
+          linear-gradient(145deg, var(--hero-overlay), transparent 30%),
+          linear-gradient(180deg, #ffffff 0%, var(--hero-bottom) 100%);
+      }
+
+      .eyebrow,
+      .card-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.78rem;
+        color: var(--muted);
+        margin: 0 0 0.7rem;
+      }
+
+      .hero-copy h1 {
+        margin: 0;
+        font-size: clamp(2.8rem, 6vw, 5.6rem);
+        line-height: 0.92;
+        max-width: 11ch;
+      }
+
+      .hero-copy h1::after {
+        content: "";
+        display: block;
+        width: 88px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--accent);
+        margin-top: 1.2rem;
+      }
+
+      .hero-text {
+        max-width: 54ch;
+        color: var(--text);
+        font-size: 1.08rem;
+        margin: 1.2rem 0 0;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        margin-top: 1.8rem;
+      }
+
+      .primary-link {
+        background: var(--accent);
+        color: #ffffff;
+        font-weight: 700;
+        box-shadow: 0 14px 30px rgba(239, 111, 60, 0.22);
+      }
+
+      .primary-link:hover {
+        background: var(--accent-dark);
+        box-shadow: 0 18px 36px rgba(239, 111, 60, 0.28);
+      }
+
+      .secondary-copy {
+        color: var(--muted);
+      }
+
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+        margin-top: 1.8rem;
+      }
+
+      .stat-card {
+        background: color-mix(in srgb, var(--panel) 88%, transparent);
+        border: 1px solid var(--border);
+        padding: 1rem;
+        border-radius: 22px;
+        transition: transform 0.3s ease, background 0.35s ease, border-color 0.35s ease;
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 1.35rem;
+      }
+
+      .stat-card span {
+        color: var(--muted);
+      }
+
+      .hero-panel {
+        padding: 2rem;
+        background:
+          radial-gradient(circle at top left, var(--panel-overlay), transparent 32%),
+          var(--panel-soft);
+      }
+
+      .hero-panel h2 {
+        margin-top: 0;
+        font-size: 1.8rem;
+      }
+
+      .hero-panel ul {
+        padding-left: 1.2rem;
+        margin: 1rem 0 0;
+        color: var(--text);
+      }
+
+      .hero-panel li + li {
+        margin-top: 0.8rem;
+      }
+
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.35rem;
+        margin-top: 1rem;
+      }
+
+      .tool-card {
+        padding: 1.5rem;
+      }
+
+      .tool-card:hover,
+      .hero-copy:hover,
+      .hero-panel:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--hover-shadow);
+      }
+
+      .tool-card-wide {
+        grid-column: span 2;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+      }
+
+      .card-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .password-box,
+      .result-box {
+        border-radius: 22px;
+        border: 1px solid var(--border);
+        background: var(--card-bg);
+        padding: 1rem 1.1rem;
+        margin-bottom: 1rem;
+        overflow-wrap: anywhere;
+        transition: background 0.35s ease, border-color 0.35s ease, transform 0.25s ease;
+      }
+
+      .slider-label,
+      .field-stack label,
+      .inline-fields label {
+        display: block;
+        color: var(--text);
+      }
+
+      .slider-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.45rem;
+      }
+
+      .checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+        margin: 1rem 0 1.2rem;
+      }
+
+      .checkbox-grid label {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 0.8rem 0.9rem;
+        background: var(--surface-tint);
+        transition: transform 0.25s ease, background 0.35s ease, border-color 0.35s ease;
+      }
+
+      .checkbox-grid input {
+        width: auto;
+      }
+
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+      }
+
+      .button-muted {
+        background: var(--surface-tint);
+        color: var(--text);
+      }
+
+      .button-muted:hover {
+        background: var(--card-bg);
+      }
+
+      .field-stack {
+        display: grid;
+        gap: 0.95rem;
+      }
+
+      .inline-fields {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .summary-grid div {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: var(--summary-bg);
+        padding: 1rem;
+        transition: transform 0.25s ease, background 0.35s ease, border-color 0.35s ease;
+      }
+
+      .stat-card:hover,
+      .checkbox-grid label:hover,
+      .summary-grid div:hover,
+      .password-box:hover,
+      .result-box:hover {
+        transform: translateY(-2px);
+      }
+
+      .theme-switcher {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-top: 1.2rem;
+        flex-wrap: wrap;
+      }
+
+      .theme-switcher span {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        gap: 0.45rem;
+        padding: 0.35rem;
+        background: var(--nav-bg);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        transition: background 0.35s ease, border-color 0.35s ease;
+      }
+
+      .theme-toggle button {
+        background: transparent;
+        color: var(--text);
+        padding: 0.7rem 1rem;
+      }
+
+      .theme-toggle button:hover {
+        background: rgba(127, 127, 127, 0.12);
+      }
+
+      .theme-toggle button.active {
+        background: var(--button-bg);
+        color: var(--button-text);
+        box-shadow: 0 10px 24px rgba(17, 17, 17, 0.18);
+      }
+
+      .hero-tool-visual {
+        position: absolute;
+        right: -0.2rem;
+        top: 58%;
+        width: 170px;
+        height: 170px;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--tool-glow), transparent 66%);
+        animation: orbitFloat 5.5s ease-in-out infinite;
+        z-index: 3;
+      }
+
+      .hero-tool-visual img {
+        width: 138px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.18));
+        animation: swaySpin 6.5s ease-in-out infinite;
+      }
+
+      body[data-theme="dark"] .hero-tool-visual img {
+        filter: drop-shadow(0 20px 36px rgba(0, 0, 0, 0.42));
+      }
+
+      @keyframes riseIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes orbitFloat {
+        0%,
+        100% {
+          transform: translate3d(0, 0, 0);
+        }
+
+        50% {
+          transform: translate3d(-8px, 14px, 0);
+        }
+      }
+
+      @keyframes heroBob {
+        0%,
+        100% {
+          transform: translateY(10px);
+        }
+
+        50% {
+          transform: translateY(-2px);
+        }
+      }
+
+      @keyframes swaySpin {
+        0%,
+        100% {
+          transform: rotate(-14deg) translateY(0);
+        }
+
+        50% {
+          transform: rotate(-4deg) translateY(-8px);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      .summary-grid span {
+        display: block;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+      }
+
+      .summary-grid strong {
+        font-size: 1.2rem;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid,
+        .tool-grid,
+        .summary-grid,
+        .stats-row,
+        .inline-fields {
+          grid-template-columns: 1fr;
+        }
+
+        .tool-card-wide {
+          grid-column: span 1;
+        }
+
+        .hero-copy,
+        .hero-panel,
+        .tool-card {
+          padding: 1.35rem;
+        }
+
+        .hero-tool-visual {
+          right: 0.5rem;
+          top: auto;
+          bottom: -0.5rem;
+          width: 120px;
+          height: 120px;
+        }
+
+        .hero-tool-visual img {
+          width: 98px;
+        }
+
+        .hero-figure {
+          min-height: 210px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .page-shell {
+          width: min(100% - 1rem, 1180px);
+        }
+
+        .topbar {
+          flex-direction: column;
+          gap: 0.85rem;
+          align-items: flex-start;
+        }
+
+        .checkbox-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy h1 {
+          font-size: 2.7rem;
+        }
+
+        .hero-tool-visual {
+          position: relative;
+          inset: auto;
+          margin: 1rem 0 0 auto;
+        }
+
+        .brand {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <nav class="topbar">
+          <div class="brand">
+            <img
+              class="brand-mark"
+              alt="BrightTools icon"
+               src="man.jpg"
+            <span>ELITE TOOLS</span>
+          </div>
+          <div class="nav-badge">Afriyie Choice😁😁😁</div>
+        </nav>
+
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Everyday tools, one clean place</p>
+            <h1>This is a multitool site built for quick wins.</h1>
+            <p class="hero-text">
+              Generate secure passwords, convert units, split bills, clean text,
+              and check BMI from one smooth white-themed dashboard.
+            </p>
+
+            <div class="hero-actions">
+              <a href="#tools" class="primary-link">Explore tools</a>
+              
+            </div>
+
+            <div class="theme-switcher">
+              <span>Choose your theme</span>
+              <div class="theme-toggle">
+                <button id="warm-theme" class="active" type="button">White</button>
+                <button id="pure-theme" type="button">Dark</button>
+              </div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-card"><strong>5+</strong><span>Tools</span></div>
+              <div class="stat-card"><strong>Instant</strong><span>Setup</span></div>
+              <div class="stat-card"><strong>Day/Night</strong><span>Theme</span></div>
+            </div>
+          </div>
+
+          <div class="hero-panel">
+            <div class="hero-figure">
+              <img
+                alt="Afriyie Tools worker hero illustration"
+                src="span-removebg-preview.png "
+              />
+            </div>
+            <h2>What you get</h2>
+            <ul>
+              <li>Password generator with length and character controls</li>
+              <li>Unit converter for length, weight, and temperature</li>
+              <li>Tip calculator for quick bill splits</li>
+              <li>Text utilities for counting and quick cleanup</li>
+              <li>BMI checker for a fast health estimate</li>
+            </ul>
+          </div>
+
+          <div class="hero-tool-visual" aria-hidden="true">
+            <img
+              alt="Animated tool graphic"
+              src="screw-removebg-preview.png"
+            />
+          </div>
+        </div>
+      </header>
+
+      <main id="tools" class="tool-grid">
+        <section class="tool-card tool-card-wide">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Security</p>
+              <h3>Password Generator</h3>
+            </div>
+            <span class="pill" id="password-strength">Ready</span>
+          </div>
+
+          <div class="password-box" id="password-output">Password is shown here</div>
+
+          <label class="slider-label" for="password-length">
+            <span>Characters</span>
+            <span id="password-length-value">16</span>
+          </label>
+          <input id="password-length" type="range" min="8" max="32" value="16" />
+
+          <div class="checkbox-grid">
+            <label><input id="uppercase" type="checkbox" checked /> Uppercase</label>
+            <label><input id="lowercase" type="checkbox" checked /> Lowercase</label>
+            <label><input id="numbers" type="checkbox" checked /> Numbers</label>
+            <label><input id="symbols" type="checkbox" /> Symbols</label>
+          </div>
+
+          <div class="action-row">
+            <button id="generate-password">Generate password</button>
+            <button id="copy-password" class="button-muted">Copy to clipboard</button>
+          </div>
+        </section>
+
+        <section class="tool-card">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Conversion</p>
+              <h3>Unit Converter</h3>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <label>
+              CATEGORY
+              <select id="unit-category">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+              </select>
+            </label>
+
+            <label>
+              VALUE
+              <input id="unit-value" value="10" />
+            </label>
+
+            <div class="inline-fields">
+              <label>
+                From
+                <select id="from-unit"></select>
+              </label>
+
+              <label>
+                To
+                <select id="to-unit"></select>
+              </label>
+            </div>
+          </div>
+
+          <div class="result-box" id="converted-output"></div>
+        </section>
+
+        <section class="tool-card">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Money</p>
+              <h3>Tip Calculator</h3>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <label>
+              Currency
+              <select id="currency-select">
+                <option value="USD">US Dollar</option>
+                <option value="EUR">Euro</option>
+                <option value="GBP">British Pound</option>
+                <option value="GHS">Ghana Cedi</option>
+                <option value="NGN">Nigerian Naira</option>
+                <option value="KES">Kenyan Shilling</option>
+                <option value="INR">Indian Rupee</option>
+                <option value="JPY">Japanese Yen</option>
+                <option value="CAD">Canadian Dollar</option>
+              </select>
+            </label>
+            <label>
+              Bill amount
+              <input id="bill-amount" value="84" />
+            </label>
+            <label>
+              Tip %
+              <input id="tip-percent" value="18" />
+            </label>
+            <label>
+              People
+              <input id="people-count" value="3" />
+            </label>
+          </div>
+
+          <div class="summary-grid">
+            <div><span>Tip</span><strong id="tip-amount">$0.00</strong></div>
+            <div><span>Total</span><strong id="total-amount">$0.00</strong></div>
+            <div><span>Per person</span><strong id="per-person">$0.00</strong></div>
+          </div>
+        </section>
+
+        <section class="tool-card tool-card-wide">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Writing</p>
+              <h3>WORD COUNT</h3>
+            </div>
+          </div>
+
+          <textarea id="text-input" rows="8">Type or paste text here to count words, estimate reading time, and clean up extra spaces.</textarea>
+
+          <div class="summary-grid">
+            <div><span>Words</span><strong id="word-count">0</strong></div>
+            <div><span>Characters</span><strong id="character-count">0</strong></div>
+            <div><span>Read time</span><strong id="read-time">0 min</strong></div>
+          </div>
+
+          <div class="result-box" id="cleaned-text">Your cleaned text will appear here.</div>
+        </section>
+
+        <section class="tool-card">
+          <div class="card-header">
+            <div>
+              <p class="card-kicker">Health</p>
+              <h3>Body Mass Index (BMI) Checker</h3>
+            </div>
+          </div>
+
+          <div class="field-stack">
+            <label>
+              Height (cm)
+              <input id="bmi-height" value="170" />
+            </label>
+            <label>
+              Weight (kg)
+              <input id="bmi-weight" value="68" />
+            </label>
+          </div>
+
+          <div class="result-box" id="bmi-output">BMI 0.0 | Enter valid values</div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const unitOptions = {
+        length: ["meters", "kilometers", "miles", "feet","centimeters"],
+        weight: ["kilograms", "grams", "pounds", "ounces"],
+        temperature: ["celsius", "fahrenheit", "kelvin"]
+      };
+
+      const unitLabels = {
+        meters: "Meters",
+        kilometers: "Kilometers",
+        miles: "Miles",
+        feet: "Feet",
+        centimeters:"Centimeters",
+        kilograms: "Kilograms",
+        grams: "Grams",
+        pounds: "Pounds",
+        ounces: "Ounces",
+        celsius: "Celsius",
+        fahrenheit: "Fahrenheit",
+        kelvin: "Kelvin"
+      };
+
+      const lengthMap = {
+        meters: 1,
+        kilometers: 1000,
+        miles: 1609.344,
+        feet: 0.3048,
+        centimeters:100
+        
+      };
+
+      const weightMap = {
+        kilograms: 1,
+        grams: 0.001,
+        pounds: 0.45359237,
+        ounces: 0.028349523125
+      };
+
+      const passwordOutput = document.getElementById("password-output");
+      const passwordStrength = document.getElementById("password-strength");
+      const passwordLength = document.getElementById("password-length");
+      const passwordLengthValue = document.getElementById("password-length-value");
+      const uppercase = document.getElementById("uppercase");
+      const lowercase = document.getElementById("lowercase");
+      const numbers = document.getElementById("numbers");
+      const symbols = document.getElementById("symbols");
+      const generatePasswordButton = document.getElementById("generate-password");
+      const copyPasswordButton = document.getElementById("copy-password");
+
+      const unitCategory = document.getElementById("unit-category");
+      const unitValue = document.getElementById("unit-value");
+      const fromUnit = document.getElementById("from-unit");
+      const toUnit = document.getElementById("to-unit");
+      const convertedOutput = document.getElementById("converted-output");
+
+      const billAmount = document.getElementById("bill-amount");
+      const tipPercent = document.getElementById("tip-percent");
+      const peopleCount = document.getElementById("people-count");
+      const currencySelect = document.getElementById("currency-select");
+      const tipAmount = document.getElementById("tip-amount");
+      const totalAmount = document.getElementById("total-amount");
+      const perPerson = document.getElementById("per-person");
+
+      const textInput = document.getElementById("text-input");
+      const wordCount = document.getElementById("word-count");
+      const characterCount = document.getElementById("character-count");
+      const readTime = document.getElementById("read-time");
+      const cleanedText = document.getElementById("cleaned-text");
+
+      const bmiHeight = document.getElementById("bmi-height");
+      const bmiWeight = document.getElementById("bmi-weight");
+      const bmiOutput = document.getElementById("bmi-output");
+      const warmThemeButton = document.getElementById("warm-theme");
+      const pureThemeButton = document.getElementById("pure-theme");
+
+      function applyTheme(theme) {
+        document.body.setAttribute("data-theme", theme);
+        warmThemeButton.classList.toggle("active", theme === "light");
+        pureThemeButton.classList.toggle("active", theme === "dark");
+        localStorage.setItem("brighttools-theme", theme);
+      }
+
+      function setPasswordStrength() {
+        const currentPassword = passwordOutput.textContent;
+        const activeSets = [uppercase.checked, lowercase.checked, numbers.checked, symbols.checked].filter(Boolean).length;
+        const length = Number(passwordLength.value);
+
+        if (currentPassword === "Create a strong password" || currentPassword === "Select at least one character set") {
+          passwordStrength.textContent = "Ready";
+          return;
+        }
+
+        if (length >= 16 && activeSets >= 3) {
+          passwordStrength.textContent = "Strong";
+          return;
+        }
+
+        if (length >= 12 && activeSets >= 2) {
+          passwordStrength.textContent = "Good";
+          return;
+        }
+
+        passwordStrength.textContent = "Basic";
+      }
+
+      function generatePassword() {
+        const groups = [
+          uppercase.checked ? "ABCDEFGHIJKLMNOPQRSTUVWXYZ" : "",
+          lowercase.checked ? "abcdefghijklmnopqrstuvwxyz" : "",
+          numbers.checked ? "0123456789" : "",
+          symbols.checked ? "!@#$%^&*()_+-=[]{}<>?" : ""
+        ].filter(Boolean);
+
+        if (!groups.length) {
+          passwordOutput.textContent = "Select at least one character set";
+          setPasswordStrength();
+          return;
+        }
+
+        const pool = groups.join("");
+        const chars = [];
+        const size = Number(passwordLength.value);
+
+        groups.forEach((group) => {
+          chars.push(group[Math.floor(Math.random() * group.length)]);
+        });
+
+        while (chars.length < size) {
+          chars.push(pool[Math.floor(Math.random() * pool.length)]);
+        }
+
+        chars.sort(() => Math.random() - 0.5);
+        passwordOutput.textContent = chars.slice(0, size).join("");
+        copyPasswordButton.textContent = "Copy";
+        setPasswordStrength();
+      }
+
+      async function copyPassword() {
+        const currentPassword = passwordOutput.textContent;
+        if (!navigator.clipboard || !currentPassword || currentPassword === "Create a strong password") {
+          return;
+        }
+
+        await navigator.clipboard.writeText(currentPassword);
+        copyPasswordButton.textContent = "Copied";
+        setTimeout(() => {
+          copyPasswordButton.textContent = "Copy";
+        }, 1400);
+      }
+
+      function fillUnitSelects() {
+        const options = unitOptions[unitCategory.value];
+        fromUnit.innerHTML = "";
+        toUnit.innerHTML = "";
+
+        options.forEach((unit, index) => {
+          const fromOption = document.createElement("option");
+          fromOption.value = unit;
+          fromOption.textContent = unitLabels[unit];
+          fromUnit.appendChild(fromOption);
+
+          const toOption = document.createElement("option");
+          toOption.value = unit;
+          toOption.textContent = unitLabels[unit];
+          toUnit.appendChild(toOption);
+
+          if (index === 0) {
+            fromUnit.value = unit;
+          }
+
+          if (index === 1) {
+            toUnit.value = unit;
+          }
+        });
+      }
+
+      function convertTemperature(value, from, to) {
+        let celsius;
+        if (from === "celsius") celsius = value;
+        if (from === "fahrenheit") celsius = ((value - 32) * 5) / 9;
+        if (from === "kelvin") celsius = value - 273.15;
+
+        if (to === "celsius") return celsius;
+        if (to === "fahrenheit") return (celsius * 9) / 5 + 32;
+        return celsius + 273.15;
+      }
+
+      function updateConversion() {
+        const value = Number(unitValue.value);
+        if (Number.isNaN(value)) {
+          convertedOutput.textContent = "Enter a valid number";
+          return;
+        }
+
+        if (unitCategory.value === "temperature") {
+          const converted = convertTemperature(value, fromUnit.value, toUnit.value);
+          convertedOutput.textContent = converted.toFixed(2) + " " + unitLabels[toUnit.value];
+          return;
+        }
+
+        const map = unitCategory.value === "length" ? lengthMap : weightMap;
+        const baseValue = value * map[fromUnit.value];
+        const converted = baseValue / map[toUnit.value];
+        convertedOutput.textContent = converted.toFixed(3) + " " + unitLabels[toUnit.value];
+      }
+
+      function updateTipCalculator() {
+        const bill = Number(billAmount.value);
+        const tip = Number(tipPercent.value) / 100;
+        const people = Number(peopleCount.value);
+        const currency = currencySelect.value;
+
+        function formatCurrency(value) {
+          try {
+            return new Intl.NumberFormat("en", {
+              style: "currency",
+              currency
+            }).format(value);
+          } catch (error) {
+            return currency + " " + value.toFixed(2);
+          }
+        }
+
+        if ([bill, tip, people].some(Number.isNaN) || people <= 0) {
+          tipAmount.textContent = formatCurrency(0);
+          totalAmount.textContent = formatCurrency(0);
+          perPerson.textContent = formatCurrency(0);
+          return;
+        }
+
+        const tipValue = bill * tip;
+        const total = bill + tipValue;
+        tipAmount.textContent = formatCurrency(tipValue);
+        totalAmount.textContent = formatCurrency(total);
+        perPerson.textContent = formatCurrency(total / people);
+      }
+
+      function updateTextTools() {
+        const raw = textInput.value;
+        const trimmed = raw.trim();
+        const normalized = trimmed.replace(/\s+/g, " ");
+        const words = normalized ? normalized.split(" ").length : 0;
+        const chars = raw.length;
+        const minutes = words > 0 ? Math.max(1, Math.ceil(words / 200)) : 0;
+
+        wordCount.textContent = String(words);
+        characterCount.textContent = String(chars);
+        readTime.textContent = minutes + " min";
+        cleanedText.textContent = normalized || "Your cleaned text will appear here.";
+      }
+
+      function updateBmi() {
+        const heightCm = Number(bmiHeight.value);
+        const weightKg = Number(bmiWeight.value);
+
+        if (Number.isNaN(heightCm) || Number.isNaN(weightKg) || heightCm <= 0 || weightKg <= 0) {
+          bmiOutput.textContent = "BMI 0.0 | Enter valid values";
+          return;
+        }
+
+        const heightM = heightCm / 100;
+        const bmi = weightKg / (heightM * heightM);
+        let category = "Healthy";
+
+        if (bmi < 18.5) category = "Underweight";
+        else if (bmi >= 25 && bmi < 30) category = "Overweight";
+        else if (bmi >= 30) category = "Obesity";
+
+        bmiOutput.textContent = "BMI " + bmi.toFixed(1) + " | " + category;
+      }
+
+      passwordLength.addEventListener("input", function () {
+        passwordLengthValue.textContent = passwordLength.value;
+        setPasswordStrength();
+      });
+      generatePasswordButton.addEventListener("click", generatePassword);
+      copyPasswordButton.addEventListener("click", function () {
+        copyPassword().catch(() => {});
+      });
+
+      [uppercase, lowercase, numbers, symbols].forEach((element) => {
+        element.addEventListener("change", setPasswordStrength);
+      });
+
+      unitCategory.addEventListener("change", function () {
+        fillUnitSelects();
+        updateConversion();
+      });
+      [unitValue, fromUnit, toUnit].forEach((element) => element.addEventListener("input", updateConversion));
+      [fromUnit, toUnit].forEach((element) => element.addEventListener("change", updateConversion));
+
+      [billAmount, tipPercent, peopleCount, currencySelect].forEach((element) => element.addEventListener("input", updateTipCalculator));
+      textInput.addEventListener("input", updateTextTools);
+      [bmiHeight, bmiWeight].forEach((element) => element.addEventListener("input", updateBmi));
+      warmThemeButton.addEventListener("click", function () {
+        applyTheme("light");
+      });
+      pureThemeButton.addEventListener("click", function () {
+        applyTheme("dark");
+      });
+
+      applyTheme(localStorage.getItem("brighttools-theme") || "light");
+      fillUnitSelects();
+      updateConversion();
+      updateTipCalculator();
+      updateTextTools();
+      updateBmi();
+    </script>
+  </body>
+</html>
